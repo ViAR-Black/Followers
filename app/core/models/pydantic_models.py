@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class RegisterUser(BaseModel):
     mail: str
@@ -17,5 +18,15 @@ class UserPlace(BaseModel):
     name: str
     last_name: str
 
+
+class PostRoom(BaseModel):
+    title: str
+    descript: str
+    members: list[int]
+
+class PatchRoom(BaseModel):
+    title: Optional[str]
+    descript: Optional[str]
+    members: Optional[list[int]]
 
     
