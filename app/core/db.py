@@ -22,3 +22,9 @@ class DatabaseConnection:
         async with self.pool.connection() as conn:
             async with conn.transaction():
                 yield conn
+
+    async def open(self):
+        await self.pool.open()
+
+    async def close(self):
+        await self.pool.close()
