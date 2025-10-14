@@ -14,11 +14,15 @@ class AuthRepo:
         cursor = await self.connection.execute(query, (user_model.email, user_model.name, password_hash))
         user_id = (await cursor.fetchone())[0]
         return user_id
-
-    async def sing_in(self, login_model: LoginUser) -> bool:
+# Исправлена опечатка
+    async def sign_in(self, login_model: LoginUser) -> bool:
         return True
     
+# Отредактировал функцию (запрос к бд вместо auth_dict)
     async def check_up_user(self, user_model:RegisterUser) -> bool:
-        if self.auth_dict.get(user_model.mail):
-            return True
-        return False
+        query = 'SELECT id FROM "user" WHERE email = %s'
+        cursor = await self.connection.execute(query, (user_model.email,))
+        check = await cursor.fetchone()
+        if check is None:
+            return False
+        return True

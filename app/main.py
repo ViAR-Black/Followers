@@ -1,9 +1,11 @@
 from fastapi import FastAPI
-from app.api import sing_router
+# Исправлена опечатка
+from app.api import sign_router
 
 
 def init_routers(app:FastAPI) -> None:
-    app.include_router(sing_router)
+    # Исправлена опечатка
+    app.include_router(sign_router)
 
 def setup_app() -> FastAPI:
     app = FastAPI(
