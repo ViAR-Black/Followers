@@ -1,9 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class RegisterUser(BaseModel):
-    mail: str
-    nickname: str
-    password: str
+    email: str = Field(..., le=75)
+    name: str = Field(..., le=20)
+    password: str = Field(..., le=250)
+    
 
 
 class LoginUser(BaseModel):
