@@ -19,7 +19,7 @@ class AuthRepo:
         return True
     
 # Отредактировал функцию (запрос к бд вместо auth_dict)
-    async def check_up_user(self, user_model:RegisterUser) -> bool:
+    async def is_user_exist(self, user_model:RegisterUser) -> bool:
         query = 'SELECT id FROM "user" WHERE email = %s'
         cursor = await self.connection.execute(query, (user_model.email,))
         check = await cursor.fetchone()

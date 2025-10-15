@@ -9,14 +9,20 @@ class RegisterService:
     async def __call__(self, reg_model: RegisterUser) -> str:
         """Проверяет данные пользователя. Если всё ок
         регистрирует и выводит SUCCESS"""
-        if await self.auth_repo.check_up_user(reg_model):
-            raise AlreadyExists
-        if '@' not in reg_model.mail:
-            raise AvailableMailExeption
-        if reg_model.password in ['12345', 'qwerty', '123455']:
-            raise SimplePasswordExeption
-        await self.auth_repo.sing_up(reg_model)
-        return 'SUCCESS'
+        check_user_status = await self.auth_repo.is_user_exist()
+        if not check_user_status:
+           return await self.auth_repo.create_user()
+        raise UserAlreadyExists
+
+
+        # if await self.auth_repo.check_up_user(reg_model):
+        #     raise AlreadyExists
+        # if '@' not in reg_model.mail:
+        #     raise AvailableMailExeption
+        # if reg_model.password in ['12345', 'qwerty', '123455']:
+        #     raise SimplePasswordExeption
+        # await self.auth_repo.sing_up(reg_model)
+        # return 'SUCCESS'
     
 class LoginService:
     def __init__(self, auth_repo: AuthRepo):

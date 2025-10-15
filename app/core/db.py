@@ -5,11 +5,11 @@ from psycopg_pool import AsyncConnectionPool
 
 
 class DatabaseConnection:    
-    def __init__(self, settings):
+    def __init__(self, max_pool_size, min_pool_size, db_connect_url):
         self.pool = AsyncConnectionPool(
-            conninfo=settings.database.db_uri,
-            min_size=settings.database.min_pool_size,
-            max_size=settings.database.max_pool_size,
+            conninfo=db_connect_url,
+            min_size=min_pool_size,
+            max_size=max_pool_size,
         )
     
     @asynccontextmanager
