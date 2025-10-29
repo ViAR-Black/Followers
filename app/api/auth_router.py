@@ -4,11 +4,11 @@ from app.services.password_hash import PasswordEncription
 from app.core.models.pydantic_models import RegisterUser, LoginUser
 from app.services import RegisterService, LoginService
 from app.repo import AuthRepo
-from app.core.db import dictionary
+# from app.core.db import dictionary
 from app.core.custom_except import *
+
 from app.core.exception import *
 from psycopg import AsyncConnection
-
 # Исправлена опечатка
 sign_router = APIRouter()
 

@@ -9,9 +9,9 @@ class RegisterService:
     async def __call__(self, reg_model: RegisterUser) -> str:
         """Проверяет данные пользователя. Если всё ок
         регистрирует и выводит SUCCESS"""
-        check_user_status = await self.auth_repo.is_user_exist()
+        check_user_status = await self.auth_repo.is_user_exist(reg_model)
         if not check_user_status:
-           return await self.auth_repo.create_user()
+           return await self.auth_repo.create_user(reg_model, password_hash)
         raise UserAlreadyExists
 
 
