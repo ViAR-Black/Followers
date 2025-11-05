@@ -1,6 +1,7 @@
 from app.repo.auth_repo import AuthRepo
 from app.core.models.pydantic_models import RegisterUser, LoginUser
 from app.core.custom_except import *
+from app.services.password_hash import PasswordEncription
 
 class RegisterService:
     def __init__(self, auth_repo:AuthRepo) -> None:
@@ -11,7 +12,8 @@ class RegisterService:
         регистрирует и выводит SUCCESS"""
         check_user_status = await self.auth_repo.is_user_exist(reg_model)
         if not check_user_status:
-           return await self.auth_repo.create_user(reg_model, password_hash)
+           hash_pass = PasswordEncription.hash_password(reg_model.password)
+           return await self.auth_repo.create_user(reg_model, hash_pass)
         raise UserAlreadyExists
 
 

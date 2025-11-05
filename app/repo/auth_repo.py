@@ -14,6 +14,7 @@ class AuthRepo:
         cursor = await self.connection.execute(query, (user_model.email, user_model.name, password_hash))
         user_id = (await cursor.fetchone())[0]
         return user_id
+    
 # Исправлена опечатка
     async def sign_in(self, login_model: LoginUser) -> bool:
         return True

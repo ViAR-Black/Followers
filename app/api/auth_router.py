@@ -50,9 +50,9 @@ async def sign_up(
     #     raise user_already_exist
     
     
-#Исправлена опечатка
-@sign_router.post('/sign_in')
-async def sign_in(log_model: LoginUser):
-    repo = AuthRepo(dictionary)
-    login_service = LoginService(repo)
-    await login_service(log_model)
+# отключено
+# @sign_router.post('/sign_in')
+# async def sign_in(log_model: LoginUser):
+#     repo = AuthRepo(dictionary)
+#     login_service = LoginService(repo)
+#     await login_service(log_model)
