@@ -8,5 +8,6 @@ pg_port = os.getenv('POSTGRES_PORT')
 pg_db = os.getenv('POSTGRES_DB')
 pg_user = os.getenv('POSTGRES_USER')
 pg_password = os.getenv('POSTGRES_PASSWORD')
-db_connect_url = f"postgresql+psycopg://{pg_user}:{pg_password}@{pg_host}:{pg_port}/{pg_db}"
-print(db_connect_url)
+db_connect_url = f"postgresql://{pg_user}:{pg_password}@{pg_host}:{pg_port}/{pg_db}"
+min_pool_size = os.getenv('MIN_POOL_SIZE')
+max_pool_size = os.getenv('MAX_POOL_SIZE')

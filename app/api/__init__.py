@@ -1,3 +1,4 @@
-from .auth_router import sing_router
+from .auth_router import sign_router
 
-__all__ = ['sing_router']
+__all__ = ['sign_router']
+

@@ -4,5 +4,5 @@ class SimplePasswordExeption(Exception):
 class AvailableMailExeption(Exception):
     pass
 
-class AlreadyExists(Exception):
+class UserAlreadyExists(Exception):
     pass
