@@ -7,8 +7,8 @@ class RegisterService:
     def __init__(self, auth_repo:AuthRepo) -> None:
         self.auth_repo = auth_repo
 
-    # Переписал, сделал читаемее, понятнее
-    async def __call__(self, reg_model: RegisterUser) -> str:
+    # Переименовал с __call__ на register для читаемости
+    async def register(self, reg_model: RegisterUser) -> str:
         """Проверяет данные пользователя. Если всё ок,
         регистрирует"""
          # Проверка существования

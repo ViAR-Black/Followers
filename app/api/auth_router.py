@@ -21,7 +21,7 @@ async def sign_up(
     try:
         auth_repo = AuthRepo(connection=conn)
         register_service = RegisterService(auth_repo=auth_repo)
-        user_id = await register_service(reg_model=reg_model)
+        user_id = await register_service.register(reg_model=reg_model)
         return user_id
     except UserAlreadyExists:
         raise user_already_exist
