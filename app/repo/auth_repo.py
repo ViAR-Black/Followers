@@ -27,3 +27,13 @@ class AuthRepo:
         if check is None:
             return False
         return True
+    
+    async def get_user_by_email(self, email: str):
+        cursor = await self.connection.execute(
+            "SELECT id, email, password_hash FROM users WHERE email = %s",
+            (email,)
+        )
+        row = await cursor.fetchone()
+        if row:
+            return {"id": row[0], "email": row[1], "hashed_password": row[2]}
+        return None

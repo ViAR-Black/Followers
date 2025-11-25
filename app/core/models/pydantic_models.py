@@ -7,7 +7,7 @@ from typing import Optional
 # Ещё исправил опечатки
 class RegisterUser(BaseModel):
     email: EmailStr
-    name: str = Field(..., le=20)
+    name: str = Field(..., le=40)
     password: str = Field(..., le=250)
     # age и description — не обязательны при регистрации
     age: Optional[int] = None
@@ -51,7 +51,6 @@ class LoginUser(BaseModel):
 
 class UserPlace(BaseModel):
     age: int
-    nickname: str
     name: str
     last_name: str
 
