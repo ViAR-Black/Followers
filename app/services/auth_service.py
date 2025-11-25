@@ -1,22 +1,29 @@
 from app.repo.auth_repo import AuthRepo
 from app.core.models.pydantic_models import RegisterUser, LoginUser
-from app.core.custom_except import *
+from app.core.exceptions.custom_auth_except import *
+from app.services.password_hash import PasswordEncription
 
 class RegisterService:
     def __init__(self, auth_repo:AuthRepo) -> None:
         self.auth_repo = auth_repo
 
+    # Переписал, сделал читаемее, понятнее
     async def __call__(self, reg_model: RegisterUser) -> str:
-        """Проверяет данные пользователя. Если всё ок
-        регистрирует и выводит SUCCESS"""
-        if await self.auth_repo.check_up_user(reg_model):
-            raise AlreadyExists
-        if '@' not in reg_model.mail:
-            raise AvailableMailExeption
-        if reg_model.password in ['12345', 'qwerty', '123455']:
-            raise SimplePasswordExeption
-        await self.auth_repo.sing_up(reg_model)
-        return 'SUCCESS'
+        """Проверяет данные пользователя. Если всё ок,
+        регистрирует"""
+         # Проверка существования
+        if await self.auth_repo.is_user_exist(reg_model.email):
+            raise UserAlreadyExists
+        
+        # Можно также удобно и легко добавить другие проверки...
+        
+        hashed = PasswordEncription.hash_password(reg_model.password)
+        return await self.auth_repo.create_user(
+            email=reg_model.email,
+            name=reg_model.name,
+            password_hash=hashed
+            )
+
     
 class LoginService:
     def __init__(self, auth_repo: AuthRepo):
