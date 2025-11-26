@@ -28,12 +28,21 @@ class AuthRepo:
             return False
         return True
     
+    # Доработать при увеличении заполненности user
     async def get_user_by_email(self, email: str):
         cursor = await self.connection.execute(
-            "SELECT id, email, password_hash FROM users WHERE email = %s",
+            'SELECT id, email, password_hash FROM "user" WHERE email = %s',
             (email,)
         )
         row = await cursor.fetchone()
         if row:
             return {"id": row[0], "email": row[1], "hashed_password": row[2]}
+        return None
+    
+    async def get_user_hash_password(self, email: str) -> dict | None:
+        query = 'SELECT id, password_hash FROM "user" WHERE email = %s'
+        cursor = await self.connection.execute(query, (email,))
+        check = await cursor.fetchone()
+        if check:
+            return {"id": check[0], "hashed_password": check[1]}
         return None

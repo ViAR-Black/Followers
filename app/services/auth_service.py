@@ -30,7 +30,7 @@ class LoginService:
         self.auth_repo = auth_repo
 
     async def login(self, email: str, password: str) -> str:  # возвращает user_id
-        user = await self.auth_repo.get_user_by_email(email)
+        user = await self.auth_repo.get_user_hash_password(email)
         if not user or not verify_password(password, user["hashed_password"]):
             raise InvalidCredentials
         

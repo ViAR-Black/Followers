@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.core.dependencies import get_db_transaction
+from app.core.dependencies import get_db_session, get_db_transaction
 from app.core.models.pydantic_models import RegisterUser, LoginUser
 from app.services import RegisterService, LoginService
 from app.repo import AuthRepo
@@ -28,7 +28,7 @@ async def sign_up(
 @sign_router.post("/login")
 async def login(
     login_data: LoginUser,
-    conn: AsyncConnection = Depends(get_db_transaction)
+    conn: AsyncConnection = Depends(get_db_session)
 ):
     try:
         auth_repo = AuthRepo(connection=conn)
