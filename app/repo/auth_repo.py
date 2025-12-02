@@ -5,25 +5,44 @@ class AuthRepo:
     def __init__(self, connection: AsyncConnection)  -> None:
         self.connection = connection
 
-    async def create_user(self, user_model: RegisterUser, password_hash: str) -> int:
+    # Привел к минимализму - передаём только необходимое
+    async def create_user(self, email: str, name: str, password_hash: str) -> int:
         query = """ 
         INSERT INTO "user" (email, name, password_hash)
         VALUES (%s,%s,%s)
         RETURNING id
         """
-        cursor = await self.connection.execute(query, (user_model.email, user_model.name, password_hash))
+        cursor = await self.connection.execute(query, (email, name, password_hash))
         user_id = (await cursor.fetchone())[0]
         return user_id
     
-# Исправлена опечатка
     async def sign_in(self, login_model: LoginUser) -> bool:
         return True
     
-# Отредактировал функцию (запрос к бд вместо auth_dict)
-    async def is_user_exist(self, user_model:RegisterUser) -> bool:
+    # Привел к минимализму - передаём только необходимое
+    async def is_user_exist(self, email: str) -> bool:
         query = 'SELECT id FROM "user" WHERE email = %s'
-        cursor = await self.connection.execute(query, (user_model.email,))
+        cursor = await self.connection.execute(query, (email,))
         check = await cursor.fetchone()
         if check is None:
             return False
         return True
+    
+    # Доработать при увеличении заполненности user
+    async def get_user_by_email(self, email: str):
+        cursor = await self.connection.execute(
+            'SELECT id, email, password_hash FROM "user" WHERE email = %s',
+            (email,)
+        )
+        row = await cursor.fetchone()
+        if row:
+            return {"id": row[0], "email": row[1], "hashed_password": row[2]}
+        return None
+    
+    async def get_user_hash_password(self, email: str) -> dict | None:
+        query = 'SELECT id, password_hash FROM "user" WHERE email = %s'
+        cursor = await self.connection.execute(query, (email,))
+        check = await cursor.fetchone()
+        if check:
+            return {"id": check[0], "hashed_password": check[1]}
+        return None
