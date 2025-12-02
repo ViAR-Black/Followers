@@ -13,4 +13,3 @@ def verify_password(password: str, hash_password: str) -> bool:
     hash_pass_bytes = hash_password.encode()
     return bcrypt.checkpw(password=pass_bytes, hashed_password=hash_pass_bytes)
 
-
